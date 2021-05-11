@@ -1,0 +1,24 @@
+- !policy
+  id: conjur/authn-iam/global
+  body:
+  - !webservice
+  - !group apps
+  - !permit
+    role: !group apps
+    resource: !webservice
+    privileges: [ read, authenticate ]
+
+- !host lambda/622705945757/lambda-conjur-oracle-role-fku816hw
+
+- !policy
+  id: epv/lob/AWS_LAMBDA_DEMO/Database-Oracle-34.224.65.69-appuser
+  owner: !host lambda/622705945757/lambda-conjur-oracle-role-fku816hw
+  body:
+  - !variable username
+  - !variable password
+  - !variable address
+
+
+- !grant
+  role: !group conjur/authn-iam/global/apps
+  member: !host lambda/622705945757/lambda-conjur-oracle-role-fku816hw
